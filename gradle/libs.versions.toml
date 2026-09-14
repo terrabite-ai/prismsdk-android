@@ -1,0 +1,24 @@
+# Versions track the engine (localsdk-android-core 1.0.0) where they overlap, so
+# the wrapper never forces a toolchain the engine was not built with.
+[versions]
+agp = "8.9.0"
+kotlin = "2.0.21"
+localsdk = "1.0.0"
+coroutines = "1.8.1"
+androidxCore = "1.13.1"
+junit = "4.13.2"
+robolectric = "4.14.1"
+androidxTestCore = "1.6.1"
+
+[libraries]
+localsdk-core = { module = "com.localsdk:core", version.ref = "localsdk" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+androidx-core = { module = "androidx.core:core", version.ref = "androidxCore" }
+junit = { module = "junit:junit", version.ref = "junit" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+androidx-test-core = { module = "androidx.test:core", version.ref = "androidxTestCore" }
+
+[plugins]
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
