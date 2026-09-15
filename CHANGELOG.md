@@ -4,7 +4,7 @@ All notable changes to Prism SDK for Android. This project follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Below 1.0.0, a
 minor version may change the API.
 
-## [0.1.0] — unreleased
+## [0.1.0] — 2026-09-15
 
 First release.
 
@@ -31,3 +31,5 @@ First release.
 
 - Tracking only. Locations are delivered to your app and nowhere else.
 - Listeners are called on the engine's thread, not the main thread.
+
+[0.1.0]: https://github.com/terrabite-ai/prismsdk-android/releases/tag/0.1.0
