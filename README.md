@@ -8,10 +8,19 @@ Requires Android 7.0 (API 24) or later. Kotlin and Java.
 
 ## Install
 
-Until Prism is on Maven Central, download `prismsdk-0.1.0.aar` from the
-[release page](https://github.com/terrabite-ai/prismsdk-android/releases) into
-your app module's `libs/` folder and declare it together with the engine it
-links:
+```kotlin
+dependencies {
+    implementation("ai.terrabite:prismsdk:0.1.0")
+}
+```
+
+That is the whole install. Prism is on Maven Central, which every Android
+project already resolves from, and its own dependencies come with it.
+
+If you need the library before a version reaches Maven Central, each
+[release](https://github.com/terrabite-ai/prismsdk-android/releases) also
+carries the AAR. Put it in your app module's `libs/` folder and declare it
+together with what it links:
 
 ```kotlin
 dependencies {
@@ -20,12 +29,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
 }
 ```
-
-Both `com.localsdk:core` and coroutines come from Maven Central, which every
-Android project already has.
-
-Once the `ai.terrabite` namespace is live on Maven Central this becomes one
-line: `implementation("ai.terrabite:prismsdk:0.1.0")`.
 
 ## Set up your app
 

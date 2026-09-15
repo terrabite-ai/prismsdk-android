@@ -92,9 +92,21 @@ engine offers no callback; the host handles `onRequestPermissionsResult`.
 ## Releasing
 
 `VERSION_NAME` in `gradle.properties` is the version and the git tag. A
-release is the tag plus `sdk-release.aar` attached to a GitHub release, renamed
-`prismsdk-<version>.aar`. Maven Central waits for the `ai.terrabite` namespace
-to be verified on Sonatype Central.
+release is:
+
+1. the tag;
+2. `./gradlew :sdk:publishToMavenCentral` from a machine whose
+   `~/.gradle/gradle.properties` holds `mavenCentralUsername`,
+   `mavenCentralPassword` (a Central Portal user token) and the `signing.*`
+   keys — never commit any of those;
+3. a GitHub release carrying the same AAR as `prismsdk-<version>.aar`, for
+   anyone who cannot wait for Central.
+
+Publishing is configured entirely in `gradle.properties` (`SONATYPE_HOST`,
+`SONATYPE_AUTOMATIC_RELEASE`, `RELEASE_SIGNING_ENABLED`, `POM_*`); do not add a
+`mavenPublishing {}` block to the build file, the plugin rejects a second
+configuration. `./gradlew :sdk:publishToMavenLocal` is the dry run: it must
+produce the AAR, sources jar, javadoc jar, module, POM and `.asc` signatures.
 
 ## Open decisions
 

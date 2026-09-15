@@ -8,7 +8,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    id("maven-publish")
+    alias(libs.plugins.maven.publish)
 }
 
 android {
@@ -40,12 +40,6 @@ android {
         // Robolectric needs the manifest and resources of the module under test.
         unitTests.isIncludeAndroidResources = true
     }
-
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-        }
-    }
 }
 
 dependencies {
@@ -59,34 +53,16 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
 }
 
-// `./gradlew :sdk:publishToMavenLocal` for a local install, and
-// `./gradlew :sdk:assembleRelease` for the AAR that goes on a GitHub release.
-// Maven Central publication waits for the `ai.terrabite` namespace to be
-// verified on Sonatype Central.
-publishing {
-    publications {
-        register<MavenPublication>("release") {
-            groupId = project.property("GROUP") as String
-            artifactId = project.property("POM_ARTIFACT_ID") as String
-            version = project.property("VERSION_NAME") as String
-            afterEvaluate { from(components["release"]) }
-            pom {
-                name.set("Prism SDK")
-                description.set("Background location tracking for Android apps.")
-                url.set("https://github.com/terrabite-ai/prismsdk-android")
-                licenses {
-                    license {
-                        name.set("MIT")
-                        url.set("https://opensource.org/licenses/MIT")
-                    }
-                }
-                developers {
-                    developer {
-                        name.set("Terrabite AI")
-                        email.set("support@terrabite.ai")
-                    }
-                }
-            }
-        }
-    }
-}
+// Publishing, via com.vanniktech.maven.publish — the same plugin the engine
+// uses. Everything is configured from gradle.properties: coordinates (GROUP,
+// POM_ARTIFACT_ID, VERSION_NAME), POM fields (POM_*), the target
+// (SONATYPE_HOST) and signing (RELEASE_SIGNING_ENABLED). No DSL block here,
+// because the plugin finalises those properties once it has read them.
+// The plugin adds the sources and javadoc jars and the signatures Maven
+// Central validates.
+//
+//   ./gradlew :sdk:publishToMavenLocal    ~/.m2, no signing needed
+//   ./gradlew :sdk:publishToMavenCentral  Central Portal; needs the release
+//                                         machine's ~/.gradle/gradle.properties
+//                                         to hold mavenCentralUsername/Password
+//                                         and the signing.* keys
