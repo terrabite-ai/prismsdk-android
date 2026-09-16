@@ -76,4 +76,17 @@ class PrismDispatcherTest {
         assertNull(PrismDispatcher.locationListener)
         PrismDispatcher.deliver(location)
     }
+
+    @Test
+    fun enrichSinkRunsFirstAndANullSinkIsHarmless() {
+        val order = ArrayList<String>()
+        PrismDispatcher.enrichSink = { order.add("enrich") }
+        PrismDispatcher.locationListener = PrismLocationListener { order.add("listener") }
+        PrismDispatcher.deliver(LocationFixtures.prism())
+        org.junit.Assert.assertEquals(listOf("enrich", "listener"), order)
+        PrismDispatcher.enrichSink = null
+        PrismDispatcher.deliver(LocationFixtures.prism())
+        org.junit.Assert.assertEquals(listOf("enrich", "listener", "listener"), order)
+        PrismDispatcher.locationListener = null
+    }
 }

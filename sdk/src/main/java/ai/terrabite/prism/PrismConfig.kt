@@ -44,6 +44,12 @@ data class PrismConfig @JvmOverloads constructor(
     val notificationImportance: Int = NotificationManager.IMPORTANCE_LOW,
     val notificationSound: Boolean = false,
     val notificationVibration: Boolean = false,
+
+    /**
+     * Places: home and frequently visited places inferred on the device. `null`
+     * (the default) keeps it off. Not an engine setting; applied by [Prism.setConfig].
+     */
+    val enrich: PrismEnrichConfig? = null,
 ) {
 
     /**
@@ -88,6 +94,7 @@ data class PrismConfig @JvmOverloads constructor(
         fun setNotificationImportance(importance: Int) = apply { value = value.copy(notificationImportance = importance) }
         fun setNotificationSound(enabled: Boolean) = apply { value = value.copy(notificationSound = enabled) }
         fun setNotificationVibration(enabled: Boolean) = apply { value = value.copy(notificationVibration = enabled) }
+        fun setEnrich(config: PrismEnrichConfig?) = apply { value = value.copy(enrich = config) }
 
         fun build(): PrismConfig = value
     }

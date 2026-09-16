@@ -46,13 +46,17 @@ object Prism {
      */
     @JvmStatic
     fun initialize(context: Context, apiKey: String) {
-        LocalSDK.initialize(context.applicationContext, apiKey)
+        val app = context.applicationContext
+        LocalSDK.initialize(app, apiKey)
+        // Enrich caches the application context itself; Prism keeps none.
+        PrismEnrichBridge.attach(app)
     }
 
     /** Apply a configuration. Optional; the defaults are sensible. */
     @JvmStatic
     fun setConfig(config: PrismConfig) {
         LocalSDK.setConfig(config.toEngine())
+        PrismEnrichBridge.apply(config.enrich)
     }
 
     /**
@@ -146,6 +150,35 @@ object Prism {
     /** Errors as a [Flow]. Same semantics as [locations]. */
     @JvmStatic
     fun errors(): Flow<String> = PrismDispatcher.errors
+
+    // MARK: Places
+
+    /**
+     * The user's home and frequently visited places, inferred on the device.
+     * Empty until places are enabled through [PrismConfig.enrich] and enough
+     * stays have been observed. Synchronous; never null.
+     */
+    @JvmStatic
+    fun places(): PrismPlaces = PrismEnrichBridge.places()
+
+    /**
+     * Places as a [Flow]. A new collector receives the current value at once,
+     * then every change.
+     */
+    @JvmStatic
+    fun placesUpdates(): Flow<PrismPlaces> = PrismEnrichBridge.placesUpdates
+
+    /** Set the receiver for place changes. Pass `null` to clear. Called on a background thread. */
+    @JvmStatic
+    fun setPlacesListener(listener: PrismPlacesListener?) {
+        PrismEnrichBridge.placesListener = listener
+    }
+
+    /** Delete every stored stay and inferred place. Places stay enabled if they were. */
+    @JvmStatic
+    fun clearPlaces() {
+        PrismEnrichBridge.clear()
+    }
 
     // MARK: Identity and context
 

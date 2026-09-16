@@ -101,4 +101,12 @@ class PrismConfigMappingTest {
 
         assertEquals(direct, built)
     }
+
+    @Test
+    fun enrichIsOffByDefaultAndIsNotAnEngineField() {
+        org.junit.Assert.assertNull(PrismConfig().enrich)
+        val c = PrismConfig.Builder().setEnrich(PrismEnrichConfig(PrismPlaceRetention.ONE_MONTH)).build()
+        org.junit.Assert.assertEquals(PrismPlaceRetention.ONE_MONTH, c.enrich!!.retention)
+        c.toEngine()   // must not throw; the engine has no such field
+    }
 }

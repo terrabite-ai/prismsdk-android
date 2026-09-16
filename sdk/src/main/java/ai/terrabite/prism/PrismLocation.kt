@@ -18,7 +18,13 @@ data class PrismLocation internal constructor(
     /** Epoch milliseconds, UTC — the instant the position was fixed. */
     val timestamp: Long,
 
-    /** UTC offset in force at [timestamp], as `±HH:MM`. */
+    /**
+     * UTC offset the engine attached, as `±HHMM` (no colon), e.g. `+0530`.
+     * Note: the engine derives it from the zone's standard offset plus its
+     * DST saving regardless of whether DST is in force at [timestamp], so it
+     * can be an hour off in winter for zones that observe DST. Prefer
+     * `TimeZone.getDefault().getOffset(timestamp)` for arithmetic.
+     */
     val timezoneOffset: String,
 
     val latitude: Double,

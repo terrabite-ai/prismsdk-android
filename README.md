@@ -152,6 +152,49 @@ Prism.setMetadata(mapOf("plan" to "gold"))
 
 Both are attached to every location that follows.
 
+## Places
+
+Prism can infer where the user lives and which places they return to, from
+the locations it already delivers. Everything runs on the device; Prism never
+sends places anywhere. It is off by default.
+
+```kotlin
+Prism.setConfig(
+    PrismConfig(
+        enrich = PrismEnrichConfig(retention = PrismPlaceRetention.THREE_MONTHS),
+    )
+)
+
+val places = Prism.places()          // synchronous, never null
+places.home?.let { home ->
+    println("home near ${home.latitude}, ${home.longitude} (${home.confidence})")
+}
+places.frequent.forEach { println("frequent: ${it.latitude}, ${it.longitude}, ${it.visitCount} visits") }
+
+lifecycleScope.launch {
+    Prism.placesUpdates().collect { updated -> /* redraw */ }
+}
+```
+
+Java:
+
+```java
+Prism.setConfig(new PrismConfig.Builder()
+        .setEnrich(new PrismEnrichConfig.Builder().setRetention(PrismPlaceRetention.THREE_MONTHS).build())
+        .build());
+Prism.setPlacesListener(places -> { /* background thread */ });
+```
+
+`home` is null until at least one stay has been observed, and carries a
+confidence that grows with the number of distinct nights spent there:
+`PROVISIONAL`, `LOW`, `MODERATE`, `HIGH`, `CONFIRMED`. Retention decides how much
+history the inference rests on: one, three or six months. `Prism.clearPlaces()`
+deletes everything Prism has stored for this.
+
+Inferring a home address is sensitive. Ask for consent and disclose it in your
+privacy policy and Play Data safety form; Prism only computes, your app decides
+what to do with the result.
+
 ## Development
 
 ```

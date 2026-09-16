@@ -15,7 +15,7 @@ class PrismLocationMappingTest {
 
         assertEquals("loc-0001", l.id)
         assertEquals(1_757_000_000_123L, l.timestamp)
-        assertEquals("+02:00", l.timezoneOffset)
+        assertEquals("+0200", l.timezoneOffset)
         assertEquals(52.2297, l.latitude, 0.0)
         assertEquals(21.0122, l.longitude, 0.0)
         assertEquals(88.5, l.altitude, 0.0)
@@ -62,7 +62,7 @@ class PrismLocationMappingTest {
         assertEquals(27, m.size)
         assertEquals("loc-0001", m["id"])
         assertEquals(1_757_000_000_123L, m["timestamp"])
-        assertEquals("+02:00", m["tz_offset"])
+        assertEquals("+0200", m["tz_offset"])
         assertEquals(52.2297, m["latitude"])
         assertEquals(21.0122, m["longitude"])
         assertEquals(88.5, m["altitude"])

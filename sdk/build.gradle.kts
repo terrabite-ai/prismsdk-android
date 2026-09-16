@@ -44,7 +44,11 @@ android {
 
 dependencies {
     implementation(libs.localsdk.core)
+    // PrismEnrich, Terrabite's own on-device place inference. Implementation,
+    // not api: integrators see PrismPlace, never the Enrich types.
+    implementation(libs.prism.enrich)
     implementation(libs.androidx.core)
+    implementation(libs.androidx.lifecycle.process)
     api(libs.kotlinx.coroutines.core)
 
     testImplementation(libs.junit)

@@ -9,6 +9,8 @@ androidxCore = "1.13.1"
 junit = "4.13.2"
 robolectric = "4.14.1"
 androidxTestCore = "1.6.1"
+prismEnrich = "0.1.0"
+lifecycleProcess = "2.8.6"
 
 [libraries]
 localsdk-core = { module = "com.localsdk:core", version.ref = "localsdk" }
@@ -18,6 +20,9 @@ androidx-core = { module = "androidx.core:core", version.ref = "androidxCore" }
 junit = { module = "junit:junit", version.ref = "junit" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 androidx-test-core = { module = "androidx.test:core", version.ref = "androidxTestCore" }
+# Terrabite's on-device place inference. Vendored by version; bump deliberately.
+prism-enrich = { module = "ai.terrabite:prism-enrich", version.ref = "prismEnrich" }
+androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "lifecycleProcess" }
 
 [plugins]
 maven-publish = { id = "com.vanniktech.maven.publish", version = "0.34.0" }

@@ -19,6 +19,9 @@ internal object PrismDispatcher {
     @Volatile var locationListener: PrismLocationListener? = null
     @Volatile var errorListener: PrismErrorListener? = null
 
+    /** Set by [PrismEnrichBridge] while places are enabled. Must not block: Enrich enqueues and returns. */
+    @Volatile var enrichSink: ((PrismLocation) -> Unit)? = null
+
     // `extraBufferCapacity = 1` + `DROP_OLDEST` gives each slow collector the
     // newest value rather than an unbounded queue, and lets `tryEmit` succeed
     // without suspending on the engine's thread.
@@ -35,6 +38,9 @@ internal object PrismDispatcher {
     val errors: Flow<String> = errorFlow.asSharedFlow()
 
     fun deliver(location: PrismLocation) {
+        // Enrich first: it is the cheapest consumer, and a host listener that
+        // throws must not starve it.
+        enrichSink?.invoke(location)
         locationListener?.onLocation(location)
         locationFlow.tryEmit(location)
     }

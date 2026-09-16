@@ -23,6 +23,26 @@ gradle.properties                     GROUP / POM_ARTIFACT_ID / VERSION_NAME
 
 No example app yet.
 
+**Enrich is reached only through `PlaceEngine`.** `ai.terrabite.prism.enrich.*`
+is imported by `PlaceEngine.kt` (the `LiveEnrich` forwarder), by the mapping
+in `PrismEnrichBridge.kt`, and by `PrismPlace.kt`/`PrismEnrichConfig.kt`
+mappers — nowhere else. Tests install `FakePlaceEngine` on
+`PrismEnrichBridge.engine`. `PrismDispatcher.enrichSink` is set only by the bridge.
+
+**Enrich thresholds stay private.** Cluster distances, dwell minimums, night
+windows, confidence tiers and buffer limits live in the `prism-enrich-android`
+repo. Describe places only in terms of what they are, never how they are found.
+
+**Every `when` over an Enrich enum has an `else` branch.** The binary may add
+values; a missing branch is a crash at runtime, not a compile error.
+
+**Adding a field to `PrismPlace` means two edits plus the count test**:
+the class and `from()`, then `toMap()`, then bump the field count in
+`PrismEnrichBridgeTest.placeHasNineFields`.
+
+**Developing against an unpublished Enrich:** `-Pprism.useMavenLocal=true`
+adds mavenLocal; never commit a catalog version that Central does not serve.
+
 ## Build & Test
 
 ```bash
@@ -47,7 +67,7 @@ grep -rn "com.localsdk" sdk/src/main | grep -v -E "^\S+:\s*import |internal "
 The engine is an `implementation` dependency, never `api`. Coroutines is `api`
 because `Prism.locations()` returns a `Flow`.
 
-**Prism is tracking-only.** `PrismConfig.toEngine()` pins `setPublishEnabled(false)`
+**Prism is tracking-only, and links two Terrabite binaries.** `PrismConfig.toEngine()` pins `setPublishEnabled(false)`
 and `PrismConfigMappingTest` asserts it. Do not expose publishing. Decided
 2026-09-14, matching the iOS SDK.
 

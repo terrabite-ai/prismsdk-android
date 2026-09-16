@@ -29,7 +29,7 @@ object LocationFixtures {
         batteryLevel = 67,
         deviceId = "device-abc",
         userId = "user-xyz",
-        timezoneOffset = "+02:00",
+        timezoneOffset = "+0200",
         verticalAccuracy = 4.5f,
         networkStatus = true,
         trackingMode = TrackingMode.EFFICIENT,

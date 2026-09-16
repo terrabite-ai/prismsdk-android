@@ -1,6 +1,7 @@
 package ai.terrabite.prism;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.After;
 import org.junit.Test;
@@ -37,5 +38,18 @@ public class JavaUsageTest {
         assertEquals(location, received[0]);
         assertEquals("loc-0001", received[0].getId());
         assertEquals(1000, Prism.LOCATION_PERMISSION_REQUEST_CODE);
+    }
+
+    @Test
+    public void placesApiIsCallableFromJava() {
+        PrismConfig config = new PrismConfig.Builder()
+                .setEnrich(new PrismEnrichConfig.Builder().setRetention(PrismPlaceRetention.SIX_MONTHS).build())
+                .build();
+        assertEquals(PrismPlaceRetention.SIX_MONTHS, config.getEnrich().getRetention());
+        PrismPlaces places = Prism.places();
+        assertNotNull(places);
+        Prism.setPlacesListener(p -> { });
+        Prism.setPlacesListener(null);
+        Prism.clearPlaces();
     }
 }

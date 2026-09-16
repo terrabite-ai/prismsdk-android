@@ -16,6 +16,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // Only for developing against an Enrich build that Central does not
+        // have yet: ./gradlew -Pprism.useMavenLocal=true ...
+        if (providers.gradleProperty("prism.useMavenLocal").orNull == "true") {
+            mavenLocal()
+        }
     }
 }
 

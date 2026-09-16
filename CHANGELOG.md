@@ -4,6 +4,29 @@ All notable changes to Prism SDK for Android. This project follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Below 1.0.0, a
 minor version may change the API.
 
+## [0.2.0] — unreleased
+
+### Added
+
+- Places: the user's home and frequently visited places, inferred on the
+  device from the location stream. Off by default; enable with
+  `PrismConfig(enrich = PrismEnrichConfig(retention))` or
+  `Builder.setEnrich(...)`. Read with `Prism.places()`, observe with
+  `Prism.placesUpdates()` or `Prism.setPlacesListener(...)`, delete with
+  `Prism.clearPlaces()`. Nothing leaves the device.
+- `PrismPlace`, `PrismPlaces`, `PrismPlaceKind`, `PrismConfidence`,
+  `PrismPlaceRetention`, `PrismEnrichConfig`, `PrismPlacesListener`.
+
+### Changed
+
+- `PrismLocation.timezoneOffset` documentation now states the engine's actual
+  format, `±HHMM` without a colon, and its DST caveat.
+
+### Notes
+
+- Vendors PrismEnrich 0.1.0 (`ai.terrabite:prism-enrich`), pulled in
+  transitively. The wrapper's own dependency list is otherwise unchanged.
+
 ## [0.1.0] — 2026-09-15
 
 First release.
@@ -33,3 +56,4 @@ First release.
 - Listeners are called on the engine's thread, not the main thread.
 
 [0.1.0]: https://github.com/terrabite-ai/prismsdk-android/releases/tag/0.1.0
+[0.2.0]: https://github.com/terrabite-ai/prismsdk-android/releases/tag/0.2.0
