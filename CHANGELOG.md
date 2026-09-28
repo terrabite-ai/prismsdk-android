@@ -24,8 +24,9 @@ minor version may change the API.
 
 ### Notes
 
-- Vendors PrismEnrich 0.0.1-beta (`ai.terrabite:prism-enrich`), pulled in
-  transitively. The wrapper's own dependency list is otherwise unchanged.
+- Depends on PrismEnrich 0.0.1-beta (`ai.terrabite:prism-enrich`) while 0.2.0
+  is tested, and on `androidx.lifecycle:lifecycle-process`. Both arrive
+  transitively.
 
 ## [0.1.0] — 2026-09-15
 
