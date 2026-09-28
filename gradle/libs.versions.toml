@@ -9,7 +9,7 @@ androidxCore = "1.13.1"
 junit = "4.13.2"
 robolectric = "4.14.1"
 androidxTestCore = "1.6.1"
-prismEnrich = "0.1.0"
+prismEnrich = "0.0.1-beta"
 lifecycleProcess = "2.8.6"
 
 [libraries]

@@ -24,7 +24,7 @@ minor version may change the API.
 
 ### Notes
 
-- Vendors PrismEnrich 0.1.0 (`ai.terrabite:prism-enrich`), pulled in
+- Vendors PrismEnrich 0.0.1-beta (`ai.terrabite:prism-enrich`), pulled in
   transitively. The wrapper's own dependency list is otherwise unchanged.
 
 ## [0.1.0] — 2026-09-15
